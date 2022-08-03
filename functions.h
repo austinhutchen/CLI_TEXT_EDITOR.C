@@ -1,6 +1,7 @@
 #ifndef functions_h
 #define functions_h
-#include <ctime>
+#include <cstddef>
+#include <time.h>
 #include <fstream>
 #include <iostream>
 #include <thread>
@@ -93,6 +94,18 @@ void changefilename(string _filename){
 void closefile(){
   fout.close();
   fin.close();
+}
+// fix below function, file wont delete. pointer needs to be reset
+int deletefile(){
+  string choice;
+  cout << "Are you sure you want to delete this file? Y/N" << endl;
+  cin >> choice;
+  if(choice=="y"||"Y"||"yes"||"YES"){
+    fout.open("test.txt", std::ofstream::out | std::ofstream::trunc);
+    cout << "File deleted." << endl;
+    return 0;
+  }
+  else{return 1;}
 }
 private:
   string filename;

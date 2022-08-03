@@ -1,5 +1,6 @@
 #include "functions.h"
 int main() {
+  int curtime=time(NULL);
   string filename;
   cout << "Enter the name of the file you would like to write to below:" << endl;
   cin >> filename;
@@ -8,7 +9,7 @@ int main() {
   string choice;
   string input;
   bool f;
-  cout << "Would you like to write, or read from this file? Type WRITE for write, and READ for read." << endl;
+  cout << "Would you like to write, or read from this file? Type WRITE for write, CLEAR to delete a file,and READ for read." << endl;
   cin >> choice;
   if (!cin.fail()) {
     if (output.lowercase(choice) == "write") {
@@ -31,6 +32,9 @@ int main() {
     }
     else if (output.lowercase(choice) == "read") {
     output.readfile();
+    }
+    else if(output.lowercase(choice)=="clear"){
+     output.deletefile();
     }
 
   } 

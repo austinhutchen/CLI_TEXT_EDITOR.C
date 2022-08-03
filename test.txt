@@ -7,3 +7,7 @@ dssdmy god this
 is 
 lame
 exit
+NEW
+hello
+this is a test
+of the text file
