@@ -11,8 +11,9 @@ class send {
 public:
   send(string _filename){
     filename=_filename;
-    fout.open(filename);
+    fout.open(filename,std::ios::app);
     fin.open(filename);
+  //this places the file pointer at the end
   }
   // function writes to external txt file
 
@@ -79,9 +80,11 @@ return 0;
 // displays output of what is currently stored in the text file
 int readfile(){
 string line;
+cout << "-----FILE TEXT BEGINNING-----" << endl;
 while(getline(fin,line)&&line.length()!=0){
-cout << line << endl;;
+cout << line << endl;
 }
+cout << "-----FILE TEXT END-----" << endl;
 return 0;}
 void changefilename(string _filename){
   filename=_filename;
@@ -93,7 +96,7 @@ void closefile(){
 }
 private:
   string filename;
-   ofstream fout;
+  ofstream fout;
   ifstream fin;
 };
 #endif
