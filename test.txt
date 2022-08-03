@@ -1,1 +1,2 @@
-This is the first of many typing tests using the test.txt file as output source.
+hello world
+tjos os a test

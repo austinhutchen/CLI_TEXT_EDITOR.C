@@ -9,27 +9,16 @@ using namespace std;
 
 class send {
 public:
-  send() { active = false; };
-  // function writes to external txt file
-  void on(){
-    active=true;
-  }
-  void off(){
-    active=false;
-  }
-  bool print(string filename, string text) {
-
-    ofstream fout;
+  send(string _filename){
+    filename=_filename;
     fout.open(filename);
-    if (fout.fail()) {
-      cout << "Invalid filename. Cannot open file." << endl;
-      return false;
-    } else {
+    fin.open(filename);
+  }
+  // function writes to external txt file
+
+  bool print(string text) {
       fout << text << endl;
-      ;
-      fout.close();
       return true;
-    }
   }
   string lowercase(string input) {
     for (int x = 0; x < input.size(); x++) {
@@ -79,8 +68,8 @@ public:
     return i;
   }
  int edit_text(){
-
-
+// first, read the file. Then, make a menu asking user for the line they want to edit, before searching and replacing that word.
+// most likley, file will need to be rewritten, as ifstream automatically deletes the previous .txt file
 
 
 
@@ -89,20 +78,22 @@ return 0;
  }
 // displays output of what is currently stored in the text file
 int readfile(){
+string line;
+while(getline(fin,line)&&line.length()!=0){
+cout << line << endl;;
+}
+return 0;}
+void changefilename(string _filename){
+  filename=_filename;
+}
 
-
-
-
-
-
-
-
-
-
-
-return 0;
+void closefile(){
+  fout.close();
+  fin.close();
 }
 private:
-  bool active;
+  string filename;
+   ofstream fout;
+  ifstream fin;
 };
 #endif
