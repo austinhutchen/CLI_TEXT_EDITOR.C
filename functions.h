@@ -1,13 +1,12 @@
 #ifndef functions_h
 #define functions_h
-#include <cstddef>
 #include <time.h>
 #include <fstream>
 #include <iostream>
 #include <thread>
-#include <vector>
 using namespace std;
-
+// add settings functions for displaying line numbers, page numbers, etc
+// implement multithreading for run efficiency
 class send {
 public:
   send(string _filename){
@@ -69,21 +68,15 @@ public:
     arr[i++] = inputstring.substr(start, length);
     return i;
   }
- int edit_text(){
-// first, read the file. Then, make a menu asking user for the line they want to edit, before searching and replacing that word.
-// most likley, file will need to be rewritten, as ifstream automatically deletes the previous .txt file
 
-
-
-
-return 0;
- }
 // displays output of what is currently stored in the text file
 int readfile(){
+int count=1;
 string line;
 cout << "-----FILE TEXT BEGINNING-----" << endl;
 while(getline(fin,line)&&line.length()!=0){
-cout << line << endl;
+cout << line << "("<<count<<")"<<endl;
+count++;
 }
 cout << "-----FILE TEXT END-----" << endl;
 return 0;}
@@ -107,6 +100,32 @@ int deletefile(){
   }
   else{return 1;}
 }
+int edit(int num){
+int count=1;
+string line;
+string edit;
+fin.clear();
+fin.seekg(0, std::ios::beg);
+while(getline(fin,line)&&line.length()!=0){
+if(count==num){
+cout << "--YOU ARE EDITING LINE NUMBER: " << count <<"--"<<endl;
+cout << "LINE CONTENT: "<< line << endl;
+cout << "ENTER YOUR NEW AND EDITED LINE BELOW, OR TYPE NOTHING FOR DELETION" << endl;
+// use file pointers to find line, and fout at beginning of line here
+cin >> edit;
+break;
+// insert loop here to fout edit into the file
+
+}
+else{count++;}
+}
+// if function reaches this point, the write has failed. return 0 inside file pointer loop
+return 1;
+}
+
+
+
+
 private:
   string filename;
   ofstream fout;
