@@ -1,25 +1,26 @@
 #ifndef functions_h
 #define functions_h
-#include <time.h>
 #include <fstream>
 #include <iostream>
 #include <thread>
+#include <time.h>
+#include <vector>
 using namespace std;
 // add settings functions for displaying line numbers, page numbers, etc
 // implement multithreading for run efficiency
 class send {
 public:
-  send(string _filename){
-    filename=_filename;
-    fout.open(filename,std::ios::app);
+  send(string _filename) {
+    filename = _filename;
+    fout.open(filename, std::ios::app);
     fin.open(filename);
-  //this places the file pointer at the end
+    // this places the file pointer at the end
   }
   // function writes to external txt file
 
   bool print(string text) {
-      fout << text << endl;
-      return true;
+    fout << text << endl;
+    return true;
   }
   string lowercase(string input) {
     for (int x = 0; x < input.size(); x++) {
@@ -69,66 +70,92 @@ public:
     return i;
   }
 
-// displays output of what is currently stored in the text file
-int readfile(){
-int count=1;
-string line;
-cout << "-----FILE TEXT BEGINNING-----" << endl;
-while(getline(fin,line)&&line.length()!=0){
-cout << line << "("<<count<<")"<<endl;
-count++;
-}
-cout << "-----FILE TEXT END-----" << endl;
-return 0;}
-void changefilename(string _filename){
-  filename=_filename;
-}
-
-void closefile(){
-  fout.close();
-  fin.close();
-}
-// fix below function, file wont delete. pointer needs to be reset
-int deletefile(){
-  string choice;
-  cout << "Are you sure you want to delete this file? Y/N" << endl;
-  cin >> choice;
-  if(choice=="y"||"Y"||"yes"||"YES"){
-    fout.open("test.txt", std::ofstream::out | std::ofstream::trunc);
-    cout << "File deleted." << endl;
+  // displays output of what is currently stored in the text file
+  int readfile() {
+    int count = 1;
+    string line;
+    cout << "-----FILE TEXT BEGINNING-----" << endl;
+    while (getline(fin, line) && line.length() != 0) {
+      cout << line << "(" << count << ")" << endl;
+      count++;
+    }
+    cout << "-----FILE TEXT END-----" << endl;
     return 0;
   }
-  else{return 1;}
-}
-int edit(int num){
-int count=1;
-string line;
-string edit;
-fin.clear();
-fin.seekg(0, std::ios::beg);
-while(getline(fin,line)&&line.length()!=0){
-if(count==num){
-cout << "--YOU ARE EDITING LINE NUMBER: " << count <<"--"<<endl;
-cout << "LINE CONTENT: "<< line << endl;
-cout << "ENTER YOUR NEW AND EDITED LINE BELOW, OR TYPE NOTHING FOR DELETION" << endl;
-// use file pointers to find line, and fout at beginning of line here
-cin >> edit;
-break;
-// insert loop here to fout edit into the file
+  void changefilename(string _filename) { filename = _filename; }
 
-}
-else{count++;}
-}
-// if function reaches this point, the write has failed. return 0 inside file pointer loop
-return 1;
-}
+  void closefile() {
+    fout.close();
+    fin.close();
+  }
+  // fix below function, file wont delete. pointer needs to be reset
+  int deletefile() {
+    string choice;
+    cout << "Are you sure you want to delete this file? Y/N" << endl;
+    cin >> choice;
+    if (choice == "y" || "Y" || "yes" || "YES") {
+      fout.open("test.txt", std::ofstream::out | std::ofstream::trunc);
+      cout << "File deleted." << endl;
+      return 0;
+    } else {
+      return 1;
+    }
+  }
+  int edit(int num) {
+    int count = 1;
+    string line;
+    string edit;
+    fin.clear();
+    fin.seekg(0, std::ios::beg);
+    while (getline(fin, line) && line.length() != 0) {
+      if (count == num) {
+        cout << "----YOU ARE EDITING LINE NUMBER: " << count << "----" << endl;
+        cout << "LINE CONTENT: " << line << endl;
+        cout << "ENTER YOUR NEW AND EDITED LINE BELOW, TYPE EXITNULL TO QUIT, "
+                "OR TYPE NOTHING FOR LINE DELETION"<<endl;
+        cin >> edit;
+        if (edit == "EXITNULL") {
+          cout << "Safely exited." << endl;
+          return 1;
+        } else if (edit == "") {
 
+          // delete line
+        } else {
+          fin.clear();
+          fin.seekg(0, std::ios::beg);
+          // the only way to do this is to store every line of the file in a
+          // vector, find the line number that needs to be changed, change it,
+          // and output to the file again. DANGER VECTORS ARE ZERO INDEXED, LINES ARE 1 INDEXED
+          while (getline(fin, line) && line.length() != 0) {
+          file.push_back(line);
+          }
+          for(int i=0;i<file.size();i++){
+          if(i==count-1){
+          file[i]=edit;
+          cout << "File change saved locally." << endl;
+          //NOW ENTIRE FILE WITH LINE EDIT IS STORED IN CLASS VECTOR
+          }
+          }
+          /* NEED TO CLEAR FILE BEFORE HERE FOR FILE TO NOT DUPLICATE
+          for(int i=0;i<file.size();i++){
+          fout << file[i]<<endl;
+          }*/
 
-
+          }
+          return 0;
+        }
+      else{count++;}       
+      } 
+          cout << "Line not found in file." << endl;
+    // if function reaches this point, the write has failed. return 0 inside
+    return 1;
+    }
 
 private:
   string filename;
   ofstream fout;
   ifstream fin;
+  vector<string>file;
 };
 #endif
+
