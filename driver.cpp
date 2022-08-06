@@ -1,27 +1,27 @@
 #include "functions.h"
 int main() {
-  string choice;
-  string input;
+  std::string choice;
+  std::string input;
   int line;
   bool f;
   int curtime = time(NULL);
-  string filename;
-  cout << "Enter the name of the file you would like to write to below:"
-       << endl;
-  cin >> filename;
+  std::string filename;
+  std::cout << "Enter the name of the file you would like to write to below:"
+       << std::endl;
+  std::cin >> filename;
   send output(filename);
   // file is now open for all read/write operations
-  cout << "Would you like to write, or read from this file? Type WRITE for "
+  std::cout << "Would you like to write, or read from this file? Type WRITE for "
           "write, CLEAR to delete a file,and READ for read."
-       << endl;
-  cin >> choice;
-  if (!cin.fail()) {
+       << std::endl;
+  std::cin >> choice;
+  if (!std::cin.fail()) {
     if (output.lowercase(choice) == "write") {
-      cout << "Begin typing below. Type NEW to type on a new line, or EXIT to "
+      std::cout << "Begin typing below. Type NEW to type on a new line, or EXIT to "
               "quit."
-           << endl;
-      cin.ignore();
-      while (getline(cin, input)) {
+           << std::endl;
+      std::cin.ignore();
+      while (getline(std::cin, input)) {
         if (input != "EXIT") {
           f = output.print(input);
         } else {
@@ -31,24 +31,24 @@ int main() {
       // splitstring here to check for new line
       //  getline automatically starts newline
       if (f == true) {
-        cout << "Text succesfully written." << endl;
+        std::cout << "Text succesfully written." << std::endl;
       } else {
-        cout << "ERROR: Text failed to write." << endl;
+        std::cout << "ERROR: Text failed to write." << std::endl;
         return main();
       }
     } else if (output.lowercase(choice) == "read") {
       output.readfile();
-      cout << "Would you like to edit this file? y/n" << endl;
-      cin >> choice;
+      std::cout << "Would you like to edit this file? y/n" << std::endl;
+      std::cin >> choice;
       if (choice == "y" || choice == "Y") {
-        cout << "Enter the number of the line that you wish to edit." << endl;
-        cin >> line;
-        if (!cin.fail()) {
+        std::cout << "Enter the number of the line that you wish to edit." << std::endl;
+        std::cin >> line;
+        if (!std::cin.fail()) {
           output.edit(line);
           // here is where the editing happens, will return a value based on
           // edit success
         } else {
-          cout << "ERROR" << endl;
+          std::cout << "ERROR" << std::endl;
         }
       }
     } else if (output.lowercase(choice) == "clear") {
@@ -56,9 +56,8 @@ int main() {
     }
 
   } else {
-    cout << "Please enter the phrase write or read for your choice. No spaces "
-            "allowed."
-         << endl;
+    std::cout << "Please enter the phrase write or read for your choice. No spaces "
+            "allowed."<< std::endl;
     return main();
   }
   output.closefile();

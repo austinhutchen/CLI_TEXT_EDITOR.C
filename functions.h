@@ -5,12 +5,14 @@
 #include <thread>
 #include <time.h>
 #include <vector>
-using namespace std;
+#include <map>
+#include <limits>
 // add settings functions for displaying line numbers, page numbers, etc
 // implement multithreading for run efficiency
+// add maps that map together an integer with num characters in the line and the line number
 class send {
 public:
-  send(string _filename) {
+  send(std::string &_filename) {
     filename = _filename;
     fout.open(filename, std::ios::app);
     fin.open(filename);
@@ -18,11 +20,11 @@ public:
   }
   // function writes to external txt file
 
-  bool print(string text) {
-    fout << text << endl;
+  bool print(std::string &text) {
+    fout << text << std::endl;
     return true;
   }
-  string lowercase(string input) {
+  std::string lowercase(std::string &input) {
     for (int x = 0; x < input.size(); x++) {
       if (input[x] >= 65 && input[x] <= 90) {
         int e = input[x] + 32;
@@ -35,7 +37,7 @@ public:
     return input;
   }
 
-  int split(string inputstring, char seperator, string arr[], int size) {
+  int split(std::string &inputstring, char &seperator, std::string arr[], int &size) {
     // number of split strings stored in count
     int count = 0;
     int i = 0;
@@ -73,16 +75,16 @@ public:
   // displays output of what is currently stored in the text file
   int readfile() {
     int count = 1;
-    string line;
-    cout << "-----FILE TEXT BEGINNING-----" << endl;
+    std::string line;
+    std::cout << "-----FILE TEXT BEGINNING-----" << std::endl;
     while (getline(fin, line) && line.length() != 0) {
-      cout << line << "(" << count << ")" << endl;
+      std::cout << line << "(" << count << ")" << std::endl;
       count++;
     }
-    cout << "-----FILE TEXT END-----" << endl;
+    std::cout << "-----FILE TEXT END-----" << std::endl;
     return 0;
   }
-  void changefilename(string _filename) { filename = _filename; }
+  void changefilename(std::string &_filename) { filename = _filename; }
 
   void closefile() {
     fout.close();
@@ -90,35 +92,36 @@ public:
   }
   // fix below function, file wont delete. pointer needs to be reset
   int deletefile() {
-    string choice;
-    cout << "Are you sure you want to delete this file? Y/N" << endl;
-    cin >> choice;
-    if (choice == "y" || "Y" || "yes" || "YES") {
+    std::string choice;
+    std::cout << "Are you sure you want to delete this file? Y/N" << std::endl;
+    std::cin >> choice;
+    if (!std::cin.fail()&&choice == "y" || "Y" || "yes" || "YES") {
       fout.open("test.txt", std::ofstream::out | std::ofstream::trunc);
-      cout << "File deleted." << endl;
+      std::cout << "File deleted." << std::endl;
       return 0;
     } else {
+      std::cout << "Error. Enter yes or no." << std::endl;
       return 1;
     }
   }
-  int edit(int num) {
+  int edit(int &num) {
     int count = 1;
-    string line;
-    string edit;
+    std::string line;
+    std::string edit;
     fin.clear();
     fin.seekg(0, std::ios::beg);
     while (getline(fin, line) && line.length() != 0) {
       if (count == num) {
-        cout << "----YOU ARE EDITING LINE NUMBER: " << count << "----" << endl;
-        cout << "LINE CONTENT: " << line << endl;
-        cout << "ENTER YOUR NEW AND EDITED LINE BELOW, TYPE EXITNULL TO QUIT, "
-                "OR TYPE NOTHING FOR LINE DELETION"<<endl;
-        cin >> edit;
+        std::cout << "----YOU ARE EDITING LINE NUMBER: " << count << "----" << std::endl;
+        std::cout << "LINE CONTENT: " << line << std::endl;
+        std::cout << "ENTER YOUR NEW AND EDITED LINE BELOW, TYPE EXITNULL TO QUIT, OR TYPE NOTHING FOR LINE DELETION"<< std::endl;
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        getline(std::cin,edit);
         if (edit == "EXITNULL") {
-          cout << "Safely exited." << endl;
+          std::cout << "Safely exited." << std::endl;
           return 1;
         } else if (edit == "") {
-
+          
           // delete line
         } else {
           fin.clear();
@@ -132,30 +135,41 @@ public:
           for(int i=0;i<file.size();i++){
           if(i==count-1){
           file[i]=edit;
-          cout << "File change saved locally." << endl;
+          std::cout << "File change saved locally." << std::endl;
           //NOW ENTIRE FILE WITH LINE EDIT IS STORED IN CLASS VECTOR
           }
           }
-          /* NEED TO CLEAR FILE BEFORE HERE FOR FILE TO NOT DUPLICATE
+          // here use the file system library to delete previous file, and use use fstream to open a new blank one
+          // output contents of vector on new blank file with same title
+          // OR write to end of file
+          // map characters to line number starting here 
+          closefile();
+          fout.open(filename);
           for(int i=0;i<file.size();i++){
-          fout << file[i]<<endl;
-          }*/
-
+          fout << file[i]<< std::endl;
+          }
+          fout.close();
           }
           return 0;
         }
       else{count++;}       
       } 
-          cout << "Line not found in file." << endl;
+          std::cout << "Line not found in file." << std::endl;
     // if function reaches this point, the write has failed. return 0 inside
     return 1;
     }
+    // lambda function to quickly add a line pair with number of characters and line number
+    int addmap(int &numchar,int &line){
+    charline.insert(std::pair<int,int>(numchar,line));
+return 0;
+    }
 
 private:
-  string filename;
-  ofstream fout;
-  ifstream fin;
-  vector<string>file;
+  std::string filename;
+  std::ofstream fout;
+  std::ifstream fin;
+  std::vector<std::string>file;
+  std::map<int,int>charline;
 };
 #endif
 
