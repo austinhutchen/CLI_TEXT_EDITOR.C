@@ -6,20 +6,17 @@ int main() {
   bool f;
   int curtime = time(NULL);
   std::string filename;
-  std::cout << "Enter the name of the file you would like to write to below:"
+  std::cout << "Enter the name of the file you would like to work with below:"
        << std::endl;
   std::cin >> filename;
   send output(filename);
   // file is now open for all read/write operations
-  std::cout << "Would you like to write, or read from this file? Type WRITE for "
-          "write, CLEAR to delete a file,and READ for read."
-       << std::endl;
+  std::cout << "Would you like to write, or read from this file? Type WRITE for write, CLEAR to delete a file,and READ for read."<< std::endl;
   std::cin >> choice;
   if (!std::cin.fail()) {
     if (output.lowercase(choice) == "write") {
       std::cout << "Begin typing below. Type NEW to type on a new line, or EXIT to "
-              "quit."
-           << std::endl;
+              "quit."<< std::endl;
       std::cin.ignore();
       while (getline(std::cin, input)) {
         if (input != "EXIT") {

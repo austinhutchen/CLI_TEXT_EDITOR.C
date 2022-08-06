@@ -96,6 +96,7 @@ public:
     std::cout << "Are you sure you want to delete this file? Y/N" << std::endl;
     std::cin >> choice;
     if (!std::cin.fail()&&choice == "y" || "Y" || "yes" || "YES") {
+      closefile();
       fout.open("test.txt", std::ofstream::out | std::ofstream::trunc);
       std::cout << "File deleted." << std::endl;
       return 0;
