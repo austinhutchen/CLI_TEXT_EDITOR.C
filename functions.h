@@ -121,7 +121,8 @@ public:
           std::cout << "Safely exited." << std::endl;
           return 1;
         } else if (edit == "") {
-          
+          closefile();
+          fout.open(filename);
           // delete line
         } else {
           fin.clear();

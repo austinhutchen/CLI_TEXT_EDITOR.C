@@ -6,8 +6,7 @@ int main() {
   bool f;
   int curtime = time(NULL);
   std::string filename;
-  std::cout << "Enter the name of the file you would like to work with below:"
-       << std::endl;
+  std::cout << "Enter the name of the file you would like to work with below:"<< std::endl;
   std::cin >> filename;
   send output(filename);
   // file is now open for all read/write operations
@@ -15,8 +14,7 @@ int main() {
   std::cin >> choice;
   if (!std::cin.fail()) {
     if (output.lowercase(choice) == "write") {
-      std::cout << "Begin typing below. Type NEW to type on a new line, or EXIT to "
-              "quit."<< std::endl;
+      std::cout << "Begin typing below. Type ENTER to type on a new line, or EXIT to quit."<< std::endl;
       std::cin.ignore();
       while (getline(std::cin, input)) {
         if (input != "EXIT") {
@@ -53,8 +51,7 @@ int main() {
     }
 
   } else {
-    std::cout << "Please enter the phrase write or read for your choice. No spaces "
-            "allowed."<< std::endl;
+    std::cout << "Please enter the phrase write or read for your choice. No spaces allowed."<< std::endl;
     return main();
   }
   output.closefile();
