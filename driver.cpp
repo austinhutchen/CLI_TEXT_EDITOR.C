@@ -1,13 +1,11 @@
 #include "functions.h"
-int main() {
+int main(int argc, char *argv[]) {
   std::string choice;
   std::string input;
   int line;
   bool f;
   int curtime = time(NULL);
-  std::string filename;
-  std::cout << "Enter the name of the file you would like to work with below:"<< std::endl;
-  std::cin >> filename;
+  std::string filename=argv[1];
   send output(filename);
   // file is now open for all read/write operations
   std::cout << "Would you like to write, or read from this file? Type WRITE for write, CLEAR to delete a file,and READ for read."<< std::endl;
@@ -29,7 +27,7 @@ int main() {
         std::cout << "Text succesfully written." << std::endl;
       } else {
         std::cout << "ERROR: Text failed to write." << std::endl;
-        return main();
+        return main(argc,argv);
       }
     } else if (output.lowercase(choice) == "read") {
       output.readfile();
@@ -52,7 +50,7 @@ int main() {
 
   } else {
     std::cout << "Please enter the phrase write or read for your choice. No spaces allowed."<< std::endl;
-    return main();
+    return main(argc,argv);
   }
   output.closefile();
 }

@@ -159,7 +159,7 @@ public:
     // if function reaches this point, the write has failed. return 0 inside
     return 1;
     }
-    // lambda function to quickly add a line pair with number of characters and line number
+    // lambda function to quickly add a linde pair with number of characters and line number
     int addmap(int &numchar,int &line){
     charline.insert(std::pair<int,int>(numchar,line));
 return 0;
