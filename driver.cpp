@@ -5,10 +5,14 @@ int main(int argc, char *argv[]) {
   int line;
   bool f;
   int curtime = time(NULL);
+  if(argc<2){
+    std::cout << "INVALID execution. Include filename using ./a.out {filename}" << std::endl;
+    return 0;
+      }
   std::string filename=argv[1];
   send output(filename);
   // file is now open for all read/write operations
-  std::cout << "Would you like to write, or read from this file? Type WRITE for write, CLEAR to delete a file,and READ for read."<< std::endl;
+  std::cout << "Would you like to write, or read from this file? Type WRITE for write, CLEAR to delete a file,and READ for read. Type LEAVE to exit program."<< std::endl;
   std::cin >> choice;
   if (!std::cin.fail()) {
     if (output.lowercase(choice) == "write") {
@@ -46,6 +50,9 @@ int main(int argc, char *argv[]) {
       }
     } else if (output.lowercase(choice) == "clear") {
       output.deletefile();
+    }
+    else if (output.lowercase(choice) == "leave") {
+      return -1;
     }
 
   } else {

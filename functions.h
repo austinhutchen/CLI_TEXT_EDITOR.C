@@ -11,8 +11,7 @@
 // add maps that map together an integer with num characters in the line and the line number
 class send {
 public:
-  send(std::string &_filename) {
-    filename = _filename;
+  send(std::string &filename) {
     fout.open(filename, std::ios::app);
     fin.open(filename);
     // this places the file pointer at the end
@@ -160,17 +159,13 @@ public:
     return 1;
     }
     // lambda function to quickly add a linde pair with number of characters and line number
-    int addmap(int &numchar,int &line){
-    charline.insert(std::pair<int,int>(numchar,line));
-return 0;
-    }
 
 private:
   std::string filename;
   std::ofstream fout;
   std::ifstream fin;
   std::vector<std::string>file;
-  std::map<int,int>charline;
+
 };
 #endif
 
